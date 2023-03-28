@@ -1,4 +1,4 @@
-package br.com.leonardo.adopet.tutor;
+package br.com.leonardo.adopet.domain;
 
 public record DadosDetalhamentoTutor(Long id, String nome, String telefone, String cidade, String sobre) {
 

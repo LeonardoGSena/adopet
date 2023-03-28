@@ -1,5 +1,10 @@
-package br.com.leonardo.adopet.tutor;
+package br.com.leonardo.adopet.controller;
 
+import br.com.leonardo.adopet.domain.DadosAtualizacaoTutor;
+import br.com.leonardo.adopet.domain.DadosDetalhamentoTutor;
+import br.com.leonardo.adopet.domain.NovoTutorRequest;
+import br.com.leonardo.adopet.domain.Tutor;
+import br.com.leonardo.adopet.repository.TutorRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
@@ -22,7 +27,7 @@ public class TutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity adicionaTutor(@RequestBody @Valid novoTutorRequest request, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity adicionaTutor(@RequestBody @Valid NovoTutorRequest request, UriComponentsBuilder uriComponentsBuilder) {
         Tutor novoTutor = request.toModel();
         manager.persist(novoTutor);
         URI uri = uriComponentsBuilder.path("/tutores/{id}").buildAndExpand(novoTutor.getId()).toUri();

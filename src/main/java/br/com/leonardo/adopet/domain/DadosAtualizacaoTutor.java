@@ -1,4 +1,4 @@
-package br.com.leonardo.adopet.tutor;
+package br.com.leonardo.adopet.domain;
 
 import jakarta.validation.constraints.NotNull;
 

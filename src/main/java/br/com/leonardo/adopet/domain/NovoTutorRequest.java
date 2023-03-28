@@ -1,9 +1,9 @@
-package br.com.leonardo.adopet.tutor;
+package br.com.leonardo.adopet.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
-public class novoTutorRequest {
+public class NovoTutorRequest {
 
     @NotBlank
     private String nome;
@@ -15,7 +15,7 @@ public class novoTutorRequest {
     @Length(max = 100)
     private String sobre;
 
-    public novoTutorRequest(@NotBlank String nome, @NotBlank String telefone, @NotBlank String cidade, @NotBlank @Length(max = 100) String sobre) {
+    public NovoTutorRequest(@NotBlank String nome, @NotBlank String telefone, @NotBlank String cidade, @NotBlank @Length(max = 100) String sobre) {
         this.nome = nome;
         this.telefone = telefone;
         this.cidade = cidade;

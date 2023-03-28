@@ -1,5 +1,6 @@
-package br.com.leonardo.adopet.tutor;
+package br.com.leonardo.adopet.domain;
 
+import br.com.leonardo.adopet.domain.DadosAtualizacaoTutor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
