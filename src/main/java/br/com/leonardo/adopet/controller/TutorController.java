@@ -1,6 +1,7 @@
 package br.com.leonardo.adopet.controller;
 
 import br.com.leonardo.adopet.domain.*;
+import br.com.leonardo.adopet.infra.exception.ResourceNotFoundException;
 import br.com.leonardo.adopet.repository.TutorRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/tutores")
@@ -46,5 +48,13 @@ public class TutorController {
     public ResponseEntity<Page<Object>> listarTutores(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         Page<Object> tutores = tutorRepository.findAll(paginacao).map(DadosListagemTutores::new);
         return ResponseEntity.ok(tutores);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @Transactional
+    public ResponseEntity<Void> excluirTutor(@PathVariable Long id) {
+        Optional<Tutor> tutor = tutorRepository.findById(id);
+        tutorRepository.delete(tutor.orElseThrow(() -> new ResourceNotFoundException("Id not found " + id)));
+        return ResponseEntity.noContent().build();
     }
 }

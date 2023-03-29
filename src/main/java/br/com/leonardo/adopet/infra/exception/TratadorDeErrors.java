@@ -16,4 +16,10 @@ public class TratadorDeErrors {
         List<FieldError> fieldErrors = ex.getFieldErrors();
         return ResponseEntity.badRequest().body(fieldErrors.stream().map(DadosErrorValidacao::new).toList());
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity tratarErro400(ResourceNotFoundException ex) {
+        String message = ex.getMessage();
+        return ResponseEntity.badRequest().body(message);
+    }
 }
