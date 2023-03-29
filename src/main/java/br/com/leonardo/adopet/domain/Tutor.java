@@ -1,6 +1,5 @@
 package br.com.leonardo.adopet.domain;
 
-import br.com.leonardo.adopet.domain.DadosAtualizacaoTutor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
@@ -26,11 +25,11 @@ public class Tutor {
     public Tutor() {
     }
 
-    public Tutor(@NotBlank String nome, @NotBlank String telefone, @NotBlank String cidade, @NotBlank @Length(max = 100) String sobre) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.cidade = cidade;
-        this.sobre = sobre;
+    public Tutor(DadosCadastroTutor request) {
+        this.nome = request.nome();
+        this.telefone = request.telefone();
+        this.cidade = request.cidade();
+        this.sobre = request.sobre();
     }
 
     public Long getId() {
@@ -53,17 +52,6 @@ public class Tutor {
         return sobre;
     }
 
-    @Override
-    public String toString() {
-        return "Tutor{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", sobre='" + sobre + '\'' +
-                '}';
-    }
-
     public void atualizarInformacoes(DadosAtualizacaoTutor request) {
         if (request.nome() != null) {
             this.nome = request.nome();
@@ -77,5 +65,34 @@ public class Tutor {
         if (request.sobre() != null) {
             this.sobre = request.sobre();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tutor tutor = (Tutor) o;
+
+        if (nome != null ? !nome.equals(tutor.nome) : tutor.nome != null) return false;
+        return telefone != null ? telefone.equals(tutor.telefone) : tutor.telefone == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nome != null ? nome.hashCode() : 0;
+        result = 31 * result + (telefone != null ? telefone.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Tutor{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", sobre='" + sobre + '\'' +
+                '}';
     }
 }

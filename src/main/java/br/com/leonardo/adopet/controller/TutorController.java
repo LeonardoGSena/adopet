@@ -3,10 +3,7 @@ package br.com.leonardo.adopet.controller;
 import br.com.leonardo.adopet.domain.*;
 import br.com.leonardo.adopet.infra.exception.ResourceNotFoundException;
 import br.com.leonardo.adopet.repository.TutorRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,18 +19,20 @@ import java.util.Optional;
 @RequestMapping(value = "/tutores")
 public class TutorController {
 
-    @PersistenceContext
-    private EntityManager manager;
-    @Autowired
-    private TutorRepository tutorRepository;
+
+    private final TutorRepository tutorRepository;
+
+    public TutorController(TutorRepository tutorRepository) {
+        this.tutorRepository = tutorRepository;
+    }
 
     @PostMapping
     @Transactional
-    public ResponseEntity adicionaTutor(@RequestBody @Valid NovoTutorRequest request, UriComponentsBuilder uriComponentsBuilder) {
-        Tutor novoTutor = request.toModel();
-        manager.persist(novoTutor);
-        URI uri = uriComponentsBuilder.path("/tutores/{id}").buildAndExpand(novoTutor.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DadosDetalhamentoTutor(novoTutor));
+    public ResponseEntity adicionaTutor(@RequestBody @Valid DadosCadastroTutor request, UriComponentsBuilder uriComponentsBuilder) {
+        Tutor tutor = new Tutor(request);
+        tutorRepository.save(tutor);
+        URI uri = uriComponentsBuilder.path("/tutores/{id}").buildAndExpand(tutor.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoTutor(tutor));
     }
 
     @PutMapping
