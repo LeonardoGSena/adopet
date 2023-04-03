@@ -4,11 +4,14 @@ import br.com.leonardo.adopet.domain.*;
 import br.com.leonardo.adopet.infra.exception.ResourceNotFoundException;
 import br.com.leonardo.adopet.repository.TutorRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,11 +23,20 @@ import java.util.Optional;
 public class TutorController {
 
 
+    @Autowired
+    private ProibeTutorComEmailDuplicadoValidator proibeTutorComEmailDuplicadoValidator;
     private final TutorRepository tutorRepository;
 
     public TutorController(TutorRepository tutorRepository) {
         this.tutorRepository = tutorRepository;
     }
+
+    @InitBinder
+    public void init(WebDataBinder binder) {
+        binder.addValidators(proibeTutorComEmailDuplicadoValidator);
+    }
+
+
 
     @PostMapping
     @Transactional
