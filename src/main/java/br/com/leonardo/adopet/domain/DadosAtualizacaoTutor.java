@@ -6,9 +6,9 @@ public record DadosAtualizacaoTutor(
         @NotNull
         Long id,
         String nome,
-        String telefone,
-        String cidade,
-        String sobre
+        String email,
+        String senha,
+        String confirmacaoSenha
 ) {
 
 }

@@ -28,8 +28,11 @@ public class TutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity adicionaTutor(@RequestBody @Valid DadosCadastroTutor request, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity cadastrarTutor(@RequestBody @Valid DadosCadastroTutor request, UriComponentsBuilder uriComponentsBuilder) {
         Tutor tutor = new Tutor(request);
+        if (!request.senha().equals(request.confirmacaoSenha())) {
+            return ResponseEntity.badRequest().body("A confirmação da senha não está igual a senha criada");
+        }
         tutorRepository.save(tutor);
         URI uri = uriComponentsBuilder.path("/tutores/{id}").buildAndExpand(tutor.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoTutor(tutor));
@@ -39,6 +42,9 @@ public class TutorController {
     @Transactional
     public ResponseEntity atualizarTutor(@RequestBody @Valid DadosAtualizacaoTutor request) {
         Tutor tutor = tutorRepository.getReferenceById(request.id());
+        if (!request.senha().equals(request.confirmacaoSenha())) {
+            return ResponseEntity.badRequest().body("A confirmação da senha não está igual a senha criada");
+        }
         tutor.atualizarInformacoes(request);
         return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
     }
