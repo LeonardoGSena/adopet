@@ -28,18 +28,6 @@ public class Tutor {
         this.senha = request.senha();
     }
 
-    public void atualizarInformacoes(DadosAtualizacaoTutor request) {
-        if (request.nome() != null) {
-            this.nome = request.nome();
-        }
-        if (request.email() != null) {
-            this.email = request.email();
-        }
-        if (request.senha() != null) {
-            this.senha = request.senha();
-        }
-    }
-
     public Long getId() {
         return id;
     }
@@ -63,12 +51,27 @@ public class Tutor {
 
         Tutor tutor = (Tutor) o;
 
-        return id != null ? id.equals(tutor.id) : tutor.id == null;
+        if (nome != null ? !nome.equals(tutor.nome) : tutor.nome != null) return false;
+        return email != null ? email.equals(tutor.email) : tutor.email == null;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        int result = nome != null ? nome.hashCode() : 0;
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
+    }
+
+    public void atualizarInformacoes(DadosAtualizacaoTutor request) {
+        if (request.nome() != null) {
+            this.nome = request.nome();
+        }
+        if (request.email() != null) {
+            this.email = request.email();
+        }
+        if (request.senha() != null) {
+            this.senha = request.senha();
+        }
     }
 
     @Override
